@@ -1,3 +1,4 @@
+
 <html lang="pt-BR">
 
 <head>
@@ -29,6 +30,10 @@
             padding: 20px;
             overflow-x: hidden;
             position: relative;
+	        background-image: url("https://i0.wp.com/therefinedgeek.com.au/wp-content/uploads/2024/01/Buckshot-Roulette-Review-Screenshot-Wallpaper-Title-Screen.png?fit=600%2C250&ssl=1");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
         }
 
         body::before {
@@ -358,7 +363,7 @@
 
 <body>
 
-    <h1>Buckshot Roulette</h1>
+ <h1>Buckshot Roulette</h1>
 
     <div class="container">
 
@@ -434,7 +439,7 @@
                     <div class="card telefone-card" id="telefoneCard" style="display:none;">
 
                     <button class="telefone-btn" onclick="toggleTelefone()">
-                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png">
+                        <img src="https://static.wikia.nocookie.net/steamtradingcards/images/1/10/Buckshot_Roulette_Card_5.png/revision/latest?cb=20240503034557">
                     </button>
 
                     <div id="painelTelefone" style="display:none;">
@@ -625,6 +630,17 @@ padding:20px;
 
             if (quantidade > 0) {
 
+		// Depois que a munição prevista for usada,
+// volta a mostrar os dois botões normalmente.
+if (
+    document.getElementById("btnUsarReal").style.display === "none" ||
+    document.getElementById("btnUsarFestim").style.display === "none"
+) {
+
+    document.getElementById("btnUsarReal").style.display = "block";
+    document.getElementById("btnUsarFestim").style.display = "block";
+}
+
                 quantidade--;
 
                 elemento.innerText = quantidade;
@@ -650,24 +666,46 @@ padding:20px;
                             "AGORA: " +
                             telefoneTipo;
 
-                        mostrarAvisoTelefone(
-                            "MUNIÇÃO PREVISTA!",
-                            "A próxima munição é: " + telefoneTipo
-                        );
+                       mostrarAvisoTelefone(
+    "MUNIÇÃO PREVISTA!",
+    "A próxima munição é: " + telefoneTipo
+);
 
-                        telefoneAtivo = false;
+telefoneAtivo = false;
 
-                        document.getElementById(
-                            "btnConfirmarTelefone"
-                        ).style.display = "block";
+// Mostra somente o botão correto
+if (telefoneTipo === "Verdadeira") {
 
-                        document.getElementById(
-                            "telefoneInfo"
-                        ).style.display = "none";
+    document.getElementById(
+        "btnUsarReal"
+    ).style.display = "block";
 
-                        document.getElementById(
-                            "painelTelefone"
-                        ).style.display = "none";
+    document.getElementById(
+        "btnUsarFestim"
+    ).style.display = "none";
+
+} else {
+
+    document.getElementById(
+        "btnUsarFestim"
+    ).style.display = "block";
+
+    document.getElementById(
+        "btnUsarReal"
+    ).style.display = "none";
+}
+
+document.getElementById(
+    "btnConfirmarTelefone"
+).style.display = "block";
+
+document.getElementById(
+    "telefoneInfo"
+).style.display = "none";
+
+document.getElementById(
+    "painelTelefone"
+).style.display = "none";
                     }
                 }
             }
@@ -690,7 +728,7 @@ padding:20px;
 
                 mostrarAvisoTelefone(
                     "SEM MUNIÇÕES",
-                    "Todas as munições acabaram. O jogo foi resetado."
+                    "Todas as munições acabaram."
                 );
 
                 setTimeout(() => {
