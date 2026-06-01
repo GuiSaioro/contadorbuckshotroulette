@@ -216,6 +216,12 @@
             flex-wrap: wrap;
         }
 
+ .som{
+		    width: fit-content;
+    height: auto;
+    align-self: end;
+		}
+
         button {
 	    min-width: 100px;
             border: 1px solid #66553a;
@@ -291,6 +297,7 @@
 
         #painelTelefone {
             margin-top: 15px;
+            align-content: center;
         }
 
         #telefoneInfo {
@@ -358,15 +365,26 @@
             .controles {
                 flex-direction: column;
             }
+	   
         }
     </style>
 </head>
 
 <body>
+	<audio id="somReal" preload="auto">
+    <source src="sons/real.mp3" type="audio/mpeg">
+</audio>
 
- <h1>Buckshot Roulette</h1>
+<audio id="somFestim" preload="auto">
+    <source src="sons/festim.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="container">
+<div style="display: flex;align-items: end;flex-wrap: nowrap;flex-direction: row;">
+
+ <h1>Buckshot Roulette</h1><button class="som" id="btnSom" onclick="toggleSom()">
+    🔊 SOM LIGADO
+</button>
+</div>    <div class="container">
 
         <div class="comemoracao" id="comemoracao">
 
@@ -384,7 +402,7 @@
             <div class="municoes" id="">
 
                 <div class="container3">
-
+		
                     <div class="card">
 
                         <div class="municao-img real">
@@ -443,7 +461,7 @@
                         <img src="img/telefone.png">
                     </button>
 
-                    <div id="painelTelefone" style="display:none;">
+                    <div id="painelTelefone" style="display:none;flex-direction: column;">
 
                         <h2>Telefone</h2>
 
@@ -465,7 +483,7 @@
                             </select>
                         </div>
 
-                        <button class="btn-maior" id="btnConfirmarTelefone" onclick="ativarTelefone()">
+                       <button class="btn-maior" id="btnConfirmarTelefone" onclick="ativarTelefone()">
                             CONFIRMAR
                         </button>
 
@@ -585,7 +603,25 @@ padding:20px;
         let telefoneAtivo = false;
         let telefonePosicao = 0;
         let telefoneTipo = "";
+	let sonsAtivados =
+    localStorage.getItem("sonsAtivados") !== "false";
+	
 
+	function toggleSom() {
+
+    sonsAtivados = !sonsAtivados;
+
+    localStorage.setItem(
+        "sonsAtivados",
+        sonsAtivados
+    );
+
+    document.getElementById("btnSom").innerText =
+        sonsAtivados
+            ? "🔊 SOM LIGADO"
+            : "🔇 SOM MUTADO";
+}
+	
         function alterar(tipo, valor) {
 
             const elemento =
@@ -630,7 +666,24 @@ padding:20px;
                 parseInt(elemento.innerText);
 
             if (quantidade > 0) {
+// Toca o som correspondente
+if (sonsAtivados) {
 
+    if (tipo === "verdadeiras") {
+
+        const som = document.getElementById("somReal");
+        som.currentTime = 0;
+        som.play();
+
+    } else {
+
+        const som = document.getElementById("somFestim");
+        som.currentTime = 0;
+        som.play();
+
+    }
+
+}
 		// Depois que a munição prevista for usada,
 // volta a mostrar os dois botões normalmente.
 if (
@@ -816,7 +869,7 @@ document.getElementById(
 
                 atualizarPosicoes();
 
-                painel.style.display = "block";
+                painel.style.display = "flex";
 
             } else {
 
