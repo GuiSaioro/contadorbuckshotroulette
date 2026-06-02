@@ -71,12 +71,16 @@
         .container3, .municoes {
             display: flex; gap: 20px; justify-content: center; align-items: stretch; flex-wrap: wrap;
         }
-        .municoes { align-items: center; align-content: center; }
+        .municoes {
+		align-items: center;
+		align-content:center;
+		max-width: 72%;
+		}
 
         .game-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
+            max-width: 650px;
             aspect-ratio: 1000 / 880;
             container-type: inline-size;
             margin: auto;
@@ -104,15 +108,25 @@
         #btn-x { top: 7%; left: 54%; width: 36%; height: 15%; }
 
         .text-display {
-            position: absolute;
-            top: 61%; left: 19%; width: 63%; height: 19%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: #dcdcdc; 
-            font-size: clamp(1rem, 3.7cqw, 2.3rem);
-            font-weight: bold; text-transform: uppercase;
-            letter-spacing: 2px; text-align: center; line-height: 1.2;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); pointer-events: none;
-            background-color: #000;
+                position: absolute;
+    top: 65%;
+    left: 25%;
+    width: 50%;
+    height: 13%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #00ff0a;
+    font-size: clamp(1rem, 3.7cqw, 2.3rem);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    background-color: #000;
         }
 
         .flash {
@@ -167,7 +181,7 @@
             font-family: 'Special Elite', monospace; outline: none;
         }
         
-        .telefone-card { max-width: 300px; margin: auto; }
+        .telefone-card { max-width: 280px; margin: auto; }
         .telefone-btn { background: none; border: none; box-shadow: none; }
         .telefone-btn img { width: 100px; height: 100px; object-fit: contain; }
         
@@ -252,13 +266,12 @@
                             <div style="margin-bottom:12px;"><select id="posicaoMunicao"></select></div>
                             <div style="margin-bottom:12px;">
                                 <select id="tipoMunicao">
-                                    <option value="Verdadeira">Real</option>
-                                    <option value="Festim">Festim</option>
+                                    <option value="Real">Munição Real</option>
+                                    <option value="Festim">Munição Festim</option>
                                 </select>
                             </div>
                             <button class="btn-maior" id="btnConfirmarTelefone" onclick="ativarTelefone()">CONFIRMAR</button>
                             <div id="telefoneInfo" style="display:none;">
-                                <div style="margin-bottom:10px;">Munição prevista:</div>
                                 <div id="textoTelefone"></div>
                             </div>
                         </div>
@@ -324,7 +337,6 @@
 
         const flash = document.getElementById('screen-flash');
 
-        // FUNÇÃO QUE INTERROMPE QUALQUER SOM EM EXECUÇÃO
         function pararTodosOsSons() {
             const sons = ['somReal', 'somFestim', 'somModal', 'somAceitar'];
             sons.forEach(id => {
@@ -358,37 +370,34 @@
         }
 
         function confirmarMunicoes() {
+            const reais = parseInt(document.getElementById("verdadeiras").innerText);
+            const festim = parseInt(document.getElementById("festim").innerText);
+
             document.getElementById("controleReal").style.display = "none";
             document.getElementById("controleFestim").style.display = "none";
             document.getElementById("okMunicao").style.display = "none";
             document.getElementById("resetMunicao").style.display = "block";
-            document.getElementById("btnUsarReal").style.display = "block";
-            document.getElementById("btnUsarFestim").style.display = "block";
+            
+            document.getElementById("btnUsarReal").style.display = reais > 0 ? "block" : "none";
+            document.getElementById("btnUsarFestim").style.display = festim > 0 ? "block" : "none";
             document.getElementById("telefoneCard").style.display = "block";
         }
 
         function usarMunicao(tipo) {
             const elemento = document.getElementById(tipo);
             let quantidade = parseInt(elemento.innerText);
+            let mudouParaAgora = false;
             
             if (quantidade > 0) {
                 triggerScreenEffect();
 
                 if (sonsAtivados) {
-                    pararTodosOsSons(); // Interrompe sons anteriores
+                    pararTodosOsSons();
                     if (tipo === "verdadeiras") {
-                        const som = document.getElementById("somReal");
-                        som.play();
+                        document.getElementById("somReal").play();
                     } else {
-                        const som = document.getElementById("somFestim");
-                        som.play();
+                        document.getElementById("somFestim").play();
                     }
-                }
-                
-                if (document.getElementById("btnUsarReal").style.display === "none" ||
-                    document.getElementById("btnUsarFestim").style.display === "none") {
-                    document.getElementById("btnUsarReal").style.display = "block";
-                    document.getElementById("btnUsarFestim").style.display = "block";
                 }
                 
                 quantidade--;
@@ -397,19 +406,15 @@
                 if (telefoneAtivo) {
                     telefonePosicao--;
                     if (telefonePosicao > 0) {
-                        document.getElementById("textoTelefone").innerText = "A previsão é daqui " + telefonePosicao + " munição(ões).";
+                        document.getElementById("textoTelefone").innerText = "A previsão é daqui " + telefonePosicao + " Rodada(s).";
                     } else {
                         document.getElementById("textoTelefone").innerText = "AGORA: " + telefoneTipo;
-                        mostrarAvisoTelefone("MUNIÇÃO PREVISTA!", "A próxima munição é: " + telefoneTipo);
+                        mostrarAvisoTelefone("MUNIÇÃO PREVISTA!", "A próxima munição é " + telefoneTipo);
                         telefoneAtivo = false;
+                        mudouParaAgora = true;
                         
-                        if (telefoneTipo === "Verdadeira") {
-                            document.getElementById("btnUsarReal").style.display = "block";
-                            document.getElementById("btnUsarFestim").style.display = "none";
-                        } else {
-                            document.getElementById("btnUsarFestim").style.display = "block";
-                            document.getElementById("btnUsarReal").style.display = "none";
-                        }
+                        document.getElementById("posicaoMunicao").disabled = false;
+                        document.getElementById("tipoMunicao").disabled = false;
                         
                         document.getElementById("btnConfirmarTelefone").style.display = "block";
                         document.getElementById("telefoneInfo").style.display = "none";
@@ -418,10 +423,27 @@
                 }
             }
             
-            const reais = parseInt(document.getElementById("verdadeiras").innerText);
-            const festim = parseInt(document.getElementById("festim").innerText);
+            const reaisRestantes = parseInt(document.getElementById("verdadeiras").innerText);
+            const festimRestantes = parseInt(document.getElementById("festim").innerText);
             
-            if (reais <= 0 && festim <= 0) {
+            if (!telefoneAtivo && document.getElementById("textoTelefone").innerText.startsWith("AGORA") && !mudouParaAgora) {
+                document.getElementById("textoTelefone").innerText = "";
+            }
+
+            if (document.getElementById("textoTelefone").innerText.startsWith("AGORA")) {
+                if (telefoneTipo === "Real") {
+                    document.getElementById("btnUsarReal").style.display = reaisRestantes > 0 ? "block" : "none";
+                    document.getElementById("btnUsarFestim").style.display = "none";
+                } else {
+                    document.getElementById("btnUsarFestim").style.display = festimRestantes > 0 ? "block" : "none";
+                    document.getElementById("btnUsarReal").style.display = "none";
+                }
+            } else {
+                document.getElementById("btnUsarReal").style.display = reaisRestantes > 0 ? "block" : "none";
+                document.getElementById("btnUsarFestim").style.display = festimRestantes > 0 ? "block" : "none";
+            }
+            
+            if (reaisRestantes <= 0 && festimRestantes <= 0) {
                 mostrarAvisoTelefone("SEM MUNIÇÕES", "Todas as munições acabaram.");
                 setTimeout(() => { fecharAvisoTelefone(); resetar(); }, 2500);
                 return;
@@ -440,6 +462,10 @@
             document.getElementById("telefoneCard").style.display = "none";
             document.getElementById("painelTelefone").style.display = "none";
             document.getElementById("btnConfirmarTelefone").style.display = "block";
+            
+            document.getElementById("posicaoMunicao").disabled = false;
+            document.getElementById("tipoMunicao").disabled = false;
+            
             telefoneAtivo = false;
         }
 
@@ -459,7 +485,7 @@
             const total = reais + festim;
             const select = document.getElementById("posicaoMunicao");
             select.innerHTML = "";
-            const nomes = ["Segunda munição", "Terceira munição", "Quarta munição", "Quinta munição", "Sexta munição", "Sétima munição", "Oitava munição"];
+            const nomes = ["Segundo Cartucho", "Terceiro Cartucho", "Quarto Cartucho", "Quinto Cartucho", "Sexto Cartucho", "Sétimo Cartucho", "Oitavo Cartucho"];
             
             for (let i = 2; i <= total; i++) {
                 const option = document.createElement("option");
@@ -468,13 +494,16 @@
             }
         }
 
-        function activarTelefone() {
+        function ativarTelefone() {
             telefonePosicao = parseInt(document.getElementById("posicaoMunicao").value);
             telefoneTipo = document.getElementById("tipoMunicao").value;
             telefoneAtivo = true;
             document.getElementById("telefoneInfo").style.display = "block";
-            document.getElementById("textoTelefone").innerText = "Previsto: munição " + telefoneTipo + " daqui " + telefonePosicao + " munição(ões).";
+            document.getElementById("textoTelefone").innerText = "Munição " + telefoneTipo + " daqui " + telefonePosicao + " Rodada(s)";
             document.getElementById("btnConfirmarTelefone").style.display = "none";
+            
+            document.getElementById("posicaoMunicao").disabled = true;
+            document.getElementById("tipoMunicao").disabled = true;
         }
 
         function mostrarAvisoTelefone(titulo, mensagem) {
@@ -515,16 +544,14 @@
         function abrirModalDobro() {
             const display = document.getElementById("display");
             if (ganhosTotais === 0) {
-                display.innerHTML = "3 VITÓRIAS!<br>DOBRO OU NADA?";
+                display.innerHTML = "DOBRO OU NADA?";
             } else {
                 display.innerHTML = "SALDO: $" + ganhosTotais + "<br>DOBRO OU NADA?";
             }
 
-            // TOCA SOM DO MODAL CORTANDO QUALQUER OUTRO ANTERIOR
             if (sonsAtivados) {
                 pararTodosOsSons();
-                const somModal = document.getElementById("somModal");
-                somModal.play();
+                document.getElementById("somModal").play();
             }
 
             document.getElementById("modalDobro").style.display = "flex";
@@ -552,7 +579,7 @@
             
             if (ganhosTotais > 0 && ganhosTotais < 1000000) {
                 if (emDesafioDobro) {
-                    document.getElementById("textoMeta").innerText = `EM RISCO! Vença +3 rodadas para coletar $${ganhosTotais * 2}`;
+                    document.getElementById("textoMeta").innerText = `Vença +3 rodadas para coletar $${ganhosTotais * 2}`;
                 } else {
                     document.getElementById("textoMeta").innerText = `Dinheiro seguro. Próximo dobro valerá $${ganhosTotais * 2}`;
                 }
@@ -579,42 +606,36 @@
             document.getElementById("btnClick").style.display = "none";
         }
 
-        // --- SISTEMA DE CLIQUE DAS OVERLAYS ---
         const btnCheck = document.getElementById('btn-check');
         const btnX = document.getElementById('btn-x');
         const display = document.getElementById('display');
 
         btnCheck.addEventListener('click', () => {
-            // LÓGICA CORRIGIDA: Pergunta primeiro antes de rodar os efeitos e sons
             if (ganhosTotais === 0) {
-                let valorInput = prompt("Qual o valor base ganho nestas 3 rodadas? (Ex: 1000)");
+                let valorInput = prompt("Qual o valor ganho? (Ex: 1000)");
                 
-                // Se cancelar, sai da função sem alterar nada no modal ou tocar sons
                 if (valorInput === null) {
                     return; 
                 }
 
                 let valor = parseInt(valorInput);
 
-                // Se deixar vazio, zero ou inválido, alerta e sai da função
                 if (isNaN(valor) || valor <= 0) {
-                    alert("Aposta inválida! Você precisa digitar um valor maior que zero.");
+                    alert("Você precisa digitar um valor maior que zero.");
                     return; 
                 }
                 
                 ganhosTotais = valor;
             }
 
-            // Se o valor for válido (ou se o saldo já era maior que zero), avança com o desafio:
-            pararTodosOsSons(); // Interrompe o som do modal imediatamente
+            pararTodosOsSons();
             triggerScreenEffect();
 
             if (sonsAtivados) {
-                const somAceitar = document.getElementById("somAceitar");
-                somAceitar.play();
+                document.getElementById("somAceitar").play();
             }
 
-            display.innerHTML = "DOBRO ACEITO!<br>GANHE MAIS 3.";
+            display.innerHTML = "DOBRO ACEITO!";
             
             emDesafioDobro = true;
             vitoriasSeguidas = 0; 
@@ -626,7 +647,7 @@
         });
 
         btnX.addEventListener('click', () => {
-            pararTodosOsSons(); // Interrompe sons anteriores ao coletar
+            pararTodosOsSons();
             triggerScreenEffect();
             display.innerHTML = "RECOMPENSA<br>COLETADA.";
             setTimeout(() => {
