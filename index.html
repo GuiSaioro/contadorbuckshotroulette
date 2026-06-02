@@ -389,12 +389,14 @@
             let mudouParaAgora = false;
             
             if (quantidade > 0) {
-                triggerScreenEffect();
+                //triggerScreenEffect();
 
                 if (sonsAtivados) {
                     pararTodosOsSons();
                     if (tipo === "verdadeiras") {
                         document.getElementById("somReal").play();
+			triggerScreenEffect();
+
                     } else {
                         document.getElementById("somFestim").play();
                     }
