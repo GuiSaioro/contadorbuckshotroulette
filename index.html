@@ -1,21 +1,13 @@
-
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Buckshot Roulette - Contador</title>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Special Elite', monospace;
             background:
@@ -30,1105 +22,618 @@
             padding: 20px;
             overflow-x: hidden;
             position: relative;
-	        background-image: url("https://i0.wp.com/therefinedgeek.com.au/wp-content/uploads/2024/01/Buckshot-Roulette-Review-Screenshot-Wallpaper-Title-Screen.png?fit=600%2C250&ssl=1");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+            background-image: url("https://i0.wp.com/therefinedgeek.com.au/wp-content/uploads/2024/01/Buckshot-Roulette-Review-Screenshot-Wallpaper-Title-Screen.png?fit=600%2C250&ssl=1");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
-
+        
         body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-
+            content: ""; position: fixed; inset: 0;
             background-image:
                 repeating-radial-gradient(rgba(255, 255, 255, 0.03) 0px,
-                    rgba(255, 255, 255, 0.02) 1px,
-                    transparent 2px);
-
-            opacity: 0.12;
-            pointer-events: none;
-            animation: noise 0.15s infinite;
+                    rgba(255, 255, 255, 0.02) 1px, transparent 2px);
+            opacity: 0.12; pointer-events: none; animation: noise 0.15s infinite;
         }
-
+        
         body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-
+            content: ""; position: fixed; inset: 0;
             background:
                 repeating-linear-gradient(to bottom,
                     rgba(255, 255, 255, 0.02),
-                    rgba(255, 255, 255, 0.02) 1px,
-                    transparent 2px,
-                    transparent 4px);
-
-            pointer-events: none;
-            opacity: 0.12;
+                    rgba(255, 255, 255, 0.02) 1px, transparent 2px, transparent 4px);
+            pointer-events: none; opacity: 0.12;
         }
-
+        
         @keyframes noise {
-            0% {
-                transform: translate(0, 0);
-            }
-
-            25% {
-                transform: translate(-1px, 1px);
-            }
-
-            50% {
-                transform: translate(1px, -1px);
-            }
-
-            75% {
-                transform: translate(-2px, 0);
-            }
-
-            100% {
-                transform: translate(2px, 1px);
-            }
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-2px, 0); }
+            100% { transform: translate(2px, 1px); }
         }
-
+        
         h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 52px;
-            color: #d9b36c;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-
-            text-shadow:
-                0 0 10px rgba(255, 180, 80, 0.4),
-                0 0 25px rgba(255, 80, 0, 0.25);
+            text-align: center; margin-bottom: 30px; font-size: 52px;
+            color: #d9b36c; letter-spacing: 4px; text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 180, 80, 0.4), 0 0 25px rgba(255, 80, 0, 0.25);
         }
-
+        
         .container {
-            width: 1400px;
-            max-width: 100%;
-            background:
-                linear-gradient(180deg,
-                    rgba(35, 35, 35, 0.96),
-                    rgba(10, 10, 10, 0.98));
-
-            border: 2px solid #4e4635;
-            border-radius: 10px;
-            padding: 35px;
-
-            display: flex;
-            gap: 20px;
-
-            justify-content: center;
-            align-items: stretch;
-
+            width: 1400px; max-width: 100%;
+            background: linear-gradient(180deg, rgba(35, 35, 35, 0.96), rgba(10, 10, 10, 0.98));
+            border: 2px solid #4e4635; border-radius: 10px; padding: 35px;
+            display: flex; gap: 20px; justify-content: center; align-items: stretch;
             flex-wrap: wrap;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(255, 180, 50, 0.06);
+        }
+        
+        .container3, .municoes {
+            display: flex; gap: 20px; justify-content: center; align-items: stretch; flex-wrap: wrap;
+        }
+        .municoes { align-items: center; align-content: center; }
 
-            box-shadow:
-                0 0 40px rgba(0, 0, 0, 0.95),
-                inset 0 0 25px rgba(255, 180, 50, 0.06);
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 1000 / 880;
+            container-type: inline-size;
+            margin: auto;
         }
 
-        .container3 {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: stretch;
-            flex-wrap: wrap;
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            pointer-events: none;
+        }
+        
+        .btn-overlay {
+            position: absolute;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0);
+            transition: background-color 0.1s ease;
+            border-radius: 4px;
         }
 
-        .municoes {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            align-content: center;
+        .btn-overlay:hover { background-color: rgba(255, 255, 255, 0.08); }
+        .btn-overlay:active { background-color: rgba(255, 0, 0, 0.2); }
+
+        #btn-check { top: 7%; left: 12%; width: 36%; height: 15%; }
+        #btn-x { top: 7%; left: 54%; width: 36%; height: 15%; }
+
+        .text-display {
+            position: absolute;
+            top: 61%; left: 19%; width: 63%; height: 19%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: #dcdcdc; 
+            font-size: clamp(1rem, 3.7cqw, 2.3rem);
+            font-weight: bold; text-transform: uppercase;
+            letter-spacing: 2px; text-align: center; line-height: 1.2;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); pointer-events: none;
+            background-color: #000;
         }
+
+        .flash {
+            position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 999;
+        }
+
+        @keyframes trigger-flash {
+            0% { opacity: 0.8; }
+            100% { opacity: 0; }
+        }
+        .flash-active { animation: trigger-flash 0.3s ease-out; }
 
         .card {
-            background:
-                linear-gradient(145deg,
-                    #1c1c1c,
-                    #111);
-
-            border: 1px solid #5a4d34;
-            border-radius: 8px;
-            padding: 20px;
-            min-width: 280px;
-            text-align-last: center;
-            position: relative;
-            overflow: hidden;
-
-            box-shadow:
-                inset 0 0 15px rgba(255, 180, 80, 0.04),
-                0 0 15px rgba(0, 0, 0, 0.8);
-
+            background: linear-gradient(145deg, #1c1c1c, #111);
+            border: 1px solid #5a4d34; border-radius: 8px; padding: 20px;
+            min-width: 280px; text-align-last: center; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 15px rgba(255, 180, 80, 0.04), 0 0 15px rgba(0, 0, 0, 0.8);
             transition: 0.2s;
         }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
+        .card:hover { transform: translateY(-2px); }
+        
         .municao-img {
-            width: 110px;
-            height: 110px;
-            margin: auto;
-            margin-bottom: 18px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            border-radius: 10px;
-            background: #111;
+            width: 110px; height: 110px; margin: auto; margin-bottom: 18px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 10px; background: #111;
         }
-
-        .real {
-            border: 2px solid #8f2d1f;
-        }
-
-        .blank {
-            border: 2px solid #a07a20;
-        }
-
-        .municao-img img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-        }
-
-        h2 {
-            margin-bottom: 12px;
-            color: #d6c08f;
-        }
-
-        .numero {
-            font-size: 70px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #f3ddb0;
-        }
-
-        .controles {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
- .som{
-		    width: fit-content;
-    height: auto;
-    align-self: end;
-		}
-
+        .real { border: 2px solid #8f2d1f; }
+        .blank { border: 2px solid #a07a20; }
+        .municao-img img { width: 80px; height: 80px; object-fit: contain; }
+        
+        h2 { margin-bottom: 12px; color: #d6c08f; }
+        .numero { font-size: 70px; font-weight: bold; margin-bottom: 15px; color: #f3ddb0; }
+        .controles { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .som { width: fit-content; height: auto; align-self: end; }
+        
         button {
-	    min-width: 100px;
-            border: 1px solid #66553a;
-            border-radius: 6px;
-            padding: 12px;
-            font-size: 15px;
-            font-family: 'Special Elite', monospace;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #f1e1b9;
-
-            background:
-                linear-gradient(180deg,
-                    #3a3328,
-                    #1d1a15);
+            min-width: 100px; border: 1px solid #66553a; border-radius: 6px; padding: 12px;
+            font-size: 15px; font-family: 'Special Elite', monospace; font-weight: bold;
+            cursor: pointer; transition: 0.2s; color: #f1e1b9;
+            background: linear-gradient(180deg, #3a3328, #1d1a15);
         }
-
-        button:hover {
-            transform: scale(1.04);
+        button:hover { transform: scale(1.04); }
+        .btn-menor { border-color: #7a2d25; }
+        .btn-maior { border-color: #3f7a4d; }
+        .usar-real { border-color: #8f2d1f; }
+        .usar-blank { border-color: #a07a20; }
+        .reset { border-color: #3d6480; }
+        
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid #5d5037; border-radius: 6px;
+            background: #161616; color: #e6d2a4; font-size: 16px;
+            font-family: 'Special Elite', monospace; outline: none;
         }
-
-        .btn-menor {
-            border-color: #7a2d25;
-        }
-
-        .btn-maior {
-            border-color: #3f7a4d;
-        }
-
-        .usar-real {
-            border-color: #8f2d1f;
-        }
-
-        .usar-blank {
-            border-color: #a07a20;
-        }
-
-        .reset {
-            border-color: #3d6480;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #5d5037;
-            border-radius: 6px;
-            background: #161616;
-            color: #e6d2a4;
-            font-size: 16px;
-            font-family: 'Special Elite', monospace;
-            outline: none;
-        }
-
-        .telefone-card {
-            /*width: 100%;*/
-            max-width: 300px;
-            margin: auto;
-        }
-
-        .telefone-btn {
-            background: none;
-            border: none;
-            box-shadow: none;
-        }
-
-        .telefone-btn img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
-
-        #painelTelefone {
-            margin-top: 15px;
-            align-content: center;
-        }
-
-        #telefoneInfo {
-            margin-top: 15px;
-            padding: 12px;
-            border: 1px solid #5a4d34;
-            border-radius: 6px;
-            background: #111;
-        }
-
+        
+        .telefone-card { max-width: 300px; margin: auto; }
+        .telefone-btn { background: none; border: none; box-shadow: none; }
+        .telefone-btn img { width: 100px; height: 100px; object-fit: contain; }
+        
+        #painelTelefone { margin-top: 15px; align-content: center; }
+        #telefoneInfo { margin-top: 15px; padding: 12px; border: 1px solid #5a4d34; border-radius: 6px; background: #111; }
+        
         .comemoracao {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            display: none; justify-content: center; align-items: center;
+            flex-direction: column; z-index: 998; padding: 20px;
+        }
+        .comemoracao h1 { font-size: clamp(32px, 8vw, 72px); color: #79ff9e; text-align: center; }
+        
+        #painelGanhos {
+            margin-top: 15px; padding: 15px;
+            background: rgba(0, 255, 100, 0.05); border: 1px solid #3f7a4d; border-radius: 8px;
             display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 999;
         }
-
-        .comemoracao h1 {
-            font-size: 72px;
-            color: #79ff9e;
-        }
-
+        .valor-ganho { color: #79ff9e; font-size: 28px; text-shadow: 0 0 10px rgba(121, 255, 158, 0.3); }
+        .meta-1000k { font-size: 14px; color: #d6c08f; margin-top: 5px; font-style: italic; }
+        
         @media(max-width:850px) {
-
-            body {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 32px;
-            }
-
-            .container {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                padding: 15px;
-            }
-
-            .container3 {
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .municoes {
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .card {
-                width: 100%;
-                max-width: 420px;
-            }
-
-            button {
-                width: 100%;
-            }
-
-            .controles {
-                flex-direction: column;
-            }
-	   
+            body { padding: 10px; }
+            h1 { font-size: 32px; }
+            .container { flex-direction: column; align-items: center; width: 100%; padding: 15px; }
+            .container3, .municoes { width: 100%; flex-direction: column; align-items: center; }
+            .card { width: 100%; max-width: 420px; }
+            button { width: 100%; }
+            .controles { flex-direction: column; }
         }
     </style>
 </head>
-
 <body>
-	<audio id="somReal" preload="auto">
-    <source src="sons/real.mp3" type="audio/mpeg">
-</audio>
+    <div class="flash" id="screen-flash"></div>
 
-<audio id="somFestim" preload="auto">
-    <source src="sons/festim.mp3" type="audio/mpeg">
-</audio>
-
-<div style="display: flex;align-items: end;flex-wrap: nowrap;flex-direction: row;">
-
- <h1>Buckshot Roulette</h1><button class="som" id="btnSom" onclick="toggleSom()">
-    🔊 SOM LIGADO
-</button>
-</div>    <div class="container">
-
-        <div class="comemoracao" id="comemoracao">
-
-            <h1>💵 Levou a grana 💵</h1>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa5Ad8RVdoOPv4IWZl9lXjIvCxgCNn1atIOA&amp;s"
-                style="margin:10px">
-
-            <button class="reset" onclick="fecharComemoracao()">
-                FECHAR
-            </button>
-
-        </div>
-        <div style="display:flex;justify-content:center;align-items:flex-start;flex-direction: row;">
-
-            <div class="municoes" id="">
-
+    <audio id="somReal" preload="auto"><source src="sons/real.mp3" type="audio/mpeg"></audio>
+    <audio id="somFestim" preload="auto"><source src="sons/festim.mp3" type="audio/mpeg"></audio>
+    <audio id="somModal" preload="auto"><source src="sons/abrir_modal.mp3" type="audio/mpeg"></audio>
+    <audio id="somAceitar" preload="auto"><source src="sons/aceitar_desafio.mp3" type="audio/mpeg"></audio>
+    
+    <div style="display: flex;align-items: end;flex-wrap: nowrap;flex-direction: row;">
+        <h1>Buckshot Roulette</h1>
+        <button class="som" id="btnSom" onclick="toggleSom()">🔊 SOM LIGADO</button>
+    </div>
+    
+    <div class="container">
+        <div style="display:flex;justify-content:center;align-items:flex-start;flex-direction: row; width: 100%; flex-wrap: wrap; gap: 20px;">
+            <div class="municoes">
                 <div class="container3">
-		
                     <div class="card">
-
                         <div class="municao-img real">
-                            <img
-                                src="https://i.namu.wiki/i/hhgWyMvBTJ313SrH4Dt9gkJiqcHUiB1Q_-8kwpZlUyoYDTg-7apS8qk2a0iolkI8sz_3-2t7f9Zp_5Brs7Rm3A.webp">
+                            <img src="https://i.namu.wiki/i/hhgWyMvBTJ313SrH4Dt9gkJiqcHUiB1Q_-8kwpZlUyoYDTg-7apS8qk2a0iolkI8sz_3-2t7f9Zp_5Brs7Rm3A.webp">
                         </div>
-
                         <h2>Munição Real</h2>
-
                         <div class="numero" id="verdadeiras">1</div>
-
                         <div class="controles" id="controleReal">
-
                             <button class="btn-menor" onclick="alterar('verdadeiras', -1)">-</button>
-
                             <button class="btn-maior" onclick="alterar('verdadeiras', 1)">+</button>
-
                         </div>
-
-                        <button class="usar-real" id="btnUsarReal" onclick="usarMunicao('verdadeiras')"
-                            style="margin-top:15px;width:100%;display:none;">
-                            Usar Real
-                        </button>
-
+                        <button class="usar-real" id="btnUsarReal" onclick="usarMunicao('verdadeiras')" style="margin-top:15px;width:100%;display:none;">Usar Real</button>
                     </div>
-
+                    
                     <div class="card">
-
                         <div class="municao-img blank">
-                            <img
-                                src="https://i.namu.wiki/i/RRTdH6dsrdJbbBuqZOp90RnBrgaw2TqenuzEap3Z9YJOXJ4fgSwzAK0dxSuq4XjcpkyD9fr12KS-GL9YJwriDQ.webp">
+                            <img src="https://i.namu.wiki/i/RRTdH6dsrdJbbBuqZOp90RnBrgaw2TqenuzEap3Z9YJOXJ4fgSwzAK0dxSuq4XjcpkyD9fr12KS-GL9YJwriDQ.webp">
                         </div>
-
                         <h2>Munição de Festim</h2>
-
                         <div class="numero" id="festim">1</div>
-
                         <div class="controles" id="controleFestim">
-
                             <button class="btn-menor" onclick="alterar('festim', -1)">-</button>
-
                             <button class="btn-maior" onclick="alterar('festim', 1)">+</button>
-
                         </div>
-
-                        <button class="usar-blank" id="btnUsarFestim" onclick="usarMunicao('festim')"
-                            style="margin-top:15px;width:100%;display:none;">
-                            Usar Festim
-                        </button>
-
+                        <button class="usar-blank" id="btnUsarFestim" onclick="usarMunicao('festim')" style="margin-top:15px;width:100%;display:none;">Usar Festim</button>
                     </div>
-
+                    
                     <div class="card telefone-card" id="telefoneCard" style="display:none;">
-
-                    <button class="telefone-btn" onclick="toggleTelefone()">
-                        <img src="img/telefone.png">
-                    </button>
-
-                    <div id="painelTelefone" style="display:none;flex-direction: column;">
-
-                        <h2>Telefone</h2>
-
-                        <div style="margin-bottom:12px;">
-                            <select id="posicaoMunicao"></select>
-                        </div>
-
-                        <div style="margin-bottom:12px;">
-                            <select id="tipoMunicao">
-
-                                <option value="Verdadeira">
-                                    Real
-                                </option>
-
-                                <option value="Festim">
-                                    Festim
-                                </option>
-
-                            </select>
-                        </div>
-
-                       <button class="btn-maior" id="btnConfirmarTelefone" onclick="ativarTelefone()">
-                            CONFIRMAR
+                        <button class="telefone-btn" onclick="toggleTelefone()">
+                            <img src="img/telefone.png">
                         </button>
-
-                        <div id="telefoneInfo" style="display:none;">
-
-                            <div style="margin-bottom:10px;">
-                                Munição prevista:
+                        <div id="painelTelefone" style="display:none;flex-direction: column;">
+                            <h2>Telefone</h2>
+                            <div style="margin-bottom:12px;"><select id="posicaoMunicao"></select></div>
+                            <div style="margin-bottom:12px;">
+                                <select id="tipoMunicao">
+                                    <option value="Verdadeira">Real</option>
+                                    <option value="Festim">Festim</option>
+                                </select>
                             </div>
-
-                            <div id="textoTelefone"></div>
-
+                            <button class="btn-maior" id="btnConfirmarTelefone" onclick="ativarTelefone()">CONFIRMAR</button>
+                            <div id="telefoneInfo" style="display:none;">
+                                <div style="margin-bottom:10px;">Munição prevista:</div>
+                                <div id="textoTelefone"></div>
+                            </div>
                         </div>
-
                     </div>
-
                 </div>
-
-                </div>
+                
                 <div style="margin:20px;width:100%;max-width:420px;">
-
-                    <button class="btn-maior" id="okMunicao" onclick="confirmarMunicoes()"
-                        style="width:100%;height:80px;font-size:28px;">
-                        INICIAR
-                    </button>
-
-                    <button class="reset" id="resetMunicao" onclick="resetar()"
-                        style="width:100%;height:80px;font-size:24px;display:none;">
-                        RESETAR
-                    </button>
-
+                    <button class="btn-maior" id="okMunicao" onclick="confirmarMunicoes()" style="width:100%;height:80px;font-size:28px;">INICIAR</button>
+                    <button class="reset" id="resetMunicao" onclick="resetar()" style="width:100%;height:80px;font-size:24px;display:none;">RESETAR</button>
                 </div>
-
-
-
             </div>
-
-            <!--//Contador de vitórias//-->
-
+            
             <div class="card">
-
                 <h2>Contador de Vitórias</h2>
-
                 <div class="numero" id="vitorias">0</div>
-
-                <div style="margin-bottom:15px;">
-
-                    <select id="modoContagem">
-
-                        <option value="crescente">
-                            Crescente
-                        </option>
-
-                        <option value="decrescente">
-                            Decrescente
-                        </option>
-
-                    </select>
-
+                
+                <div id="painelGanhos">
+                    <div style="font-size: 14px;">DINHEIRO GARANTIDO:</div>
+                    <div class="valor-ganho" id="exibicaoGanhos">$0</div>
+                    <div class="meta-1000k" id="textoMeta"></div>
                 </div>
 
-                <div style="margin-bottom:15px;">
-
-                    <input type="number" id="valorInicial" value="0">
-
+                <div class="controles" style="margin-top: 25px;">
+                    <button class="btn-maior" id="btnOK" onclick="iniciarContador()">INICIAR CONTAGEM</button>
+                    <button class="btn-click" id="btnClick" onclick="alterarVitorias()" style="display:none; background: linear-gradient(180deg, #3f7a4d, #204d2b); border-color:#53a066;">+ Vitória</button>
+                    <button class="reset" id="btnZerar" onclick="zerarContador()" style="display:none;">ZERAR TUDO</button>
                 </div>
-
-                <div class="controles">
-
-                    <button class="btn-maior" id="btnOK" onclick="iniciarContador()">
-                        INICIAR
-                    </button>
-
-                    <button class="btn-menor" id="btnClick" onclick="alterarVitorias()" style="display:none;">
-                        Vitória
-                    </button>
-
-                    <button class="reset" id="btnZerar" onclick="zerarContador()" style="display:none;">
-                        ZERAR
-                    </button>
-
-                </div>
-
             </div>
-
         </div>
-
-
-
-
-
+    </div>
+    
+    <div class="comemoracao" id="alertaTelefone">
+        <h1 id="tituloAviso">ALERTA</h1>
+        <div id="mensagemAviso" style="font-size:28px;margin-top:20px;text-align:center;max-width:600px;padding:20px;">Mensagem</div>
+        <button class="reset" onclick="fecharAvisoTelefone()">FECHAR</button>
+    </div>
+    
+    <div class="comemoracao" id="modalDobro">
+        <div class="game-container">
+            <img src="img/dobroounada.png" alt="Máquina Buckshot Roulette" class="game-image">
+            <div id="btn-check" class="btn-overlay" title="Aceitar Desafio"></div>
+            <div id="btn-x" class="btn-overlay" title="Sair com o Dinheiro"></div>
+            <div id="display" class="text-display">O DOBRO OU<br>NADA?</div>
+        </div>
     </div>
 
-    <div class="comemoracao" id="alertaTelefone">
-
-        <h1 id="tituloAviso">
-            ALERTA
-        </h1>
-
-        <div id="mensagemAviso" style="
-font-size:28px;
-margin-top:20px;
-text-align:center;
-max-width:600px;
-padding:20px;
-">
-            Mensagem
-        </div>
-
-        <button class="reset" onclick="fecharAvisoTelefone()">
-            FECHAR
-        </button>
-
+    <div class="comemoracao" id="modalMeta">
+        <h1 style="color: #79ff9e;">💰 Prêmio Máximo Coletado! 💰</h1>
+        <div id="textoFinalSucesso" style="font-size:24px; margin: 20px 0; color: #f1e1b9; text-align: center; max-width: 600px; line-height: 1.5;"></div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa5Ad8RVdoOPv4IWZl9lXjIvCxgCNn1atIOA&s" style="margin:10px; max-width: 300px; border-radius: 10px;">
+        <button class="reset" onclick="fecharModalMeta()" style="margin-top: 25px;">SAIR DA MESA</button>
     </div>
 
     <script>
-
         let telefoneAtivo = false;
         let telefonePosicao = 0;
         let telefoneTipo = "";
-	let sonsAtivados =
-    localStorage.getItem("sonsAtivados") !== "false";
-	
+        let sonsAtivados = localStorage.getItem("sonsAtivados") !== "false";
+        
+        let ganhosTotais = 0;
+        let vitoriasSeguidas = 0;
+        let emDesafioDobro = false; 
 
-	function toggleSom() {
+        const flash = document.getElementById('screen-flash');
 
-    sonsAtivados = !sonsAtivados;
+        // FUNÇÃO QUE INTERROMPE QUALQUER SOM EM EXECUÇÃO
+        function pararTodosOsSons() {
+            const sons = ['somReal', 'somFestim', 'somModal', 'somAceitar'];
+            sons.forEach(id => {
+                const som = document.getElementById(id);
+                if (som) {
+                    som.pause();
+                    som.currentTime = 0;
+                }
+            });
+        }
 
-    localStorage.setItem(
-        "sonsAtivados",
-        sonsAtivados
-    );
+        function triggerScreenEffect() {
+            flash.classList.remove('flash-active');
+            void flash.offsetWidth; 
+            flash.classList.add('flash-active');
+        }
 
-    document.getElementById("btnSom").innerText =
-        sonsAtivados
-            ? "🔊 SOM LIGADO"
-            : "🔇 SOM MUTADO";
-}
-	
+        function toggleSom() {
+            sonsAtivados = !sonsAtivados;
+            localStorage.setItem("sonsAtivados", sonsAtivados);
+            document.getElementById("btnSom").innerText = sonsAtivados ? "🔊 SOM LIGADO" : "🔇 SOM MUTADO";
+        }
+
         function alterar(tipo, valor) {
-
-            const elemento =
-                document.getElementById(tipo);
-
-            let quantidade =
-                parseInt(elemento.innerText);
-
+            const elemento = document.getElementById(tipo);
+            let quantidade = parseInt(elemento.innerText);
             quantidade += valor;
-
-            if (quantidade < 1) {
-                quantidade = 1;
-            }
-
-            if (quantidade > 4) {
-                quantidade = 4;
-            }
-
+            if (quantidade < 1) quantidade = 1;
+            if (quantidade > 4) quantidade = 4;
             elemento.innerText = quantidade;
         }
 
         function confirmarMunicoes() {
-
             document.getElementById("controleReal").style.display = "none";
             document.getElementById("controleFestim").style.display = "none";
-
             document.getElementById("okMunicao").style.display = "none";
             document.getElementById("resetMunicao").style.display = "block";
-
             document.getElementById("btnUsarReal").style.display = "block";
             document.getElementById("btnUsarFestim").style.display = "block";
-
             document.getElementById("telefoneCard").style.display = "block";
         }
 
         function usarMunicao(tipo) {
-
-            const elemento =
-                document.getElementById(tipo);
-
-            let quantidade =
-                parseInt(elemento.innerText);
-
+            const elemento = document.getElementById(tipo);
+            let quantidade = parseInt(elemento.innerText);
+            
             if (quantidade > 0) {
-// Toca o som correspondente
-if (sonsAtivados) {
+                triggerScreenEffect();
 
-    if (tipo === "verdadeiras") {
-
-        const som = document.getElementById("somReal");
-        som.currentTime = 0;
-        som.play();
-
-    } else {
-
-        const som = document.getElementById("somFestim");
-        som.currentTime = 0;
-        som.play();
-
-    }
-
-}
-		// Depois que a munição prevista for usada,
-// volta a mostrar os dois botões normalmente.
-if (
-    document.getElementById("btnUsarReal").style.display === "none" ||
-    document.getElementById("btnUsarFestim").style.display === "none"
-) {
-
-    document.getElementById("btnUsarReal").style.display = "block";
-    document.getElementById("btnUsarFestim").style.display = "block";
-}
-
-                quantidade--;
-
-                elemento.innerText = quantidade;
-
-                if (telefoneAtivo) {
-
-                    telefonePosicao--;
-
-                    if (telefonePosicao > 0) {
-
-                        document.getElementById(
-                            "textoTelefone"
-                        ).innerText =
-                            "A previsão é daqui "
-                            + telefonePosicao +
-                            " munição(ões).";
-
+                if (sonsAtivados) {
+                    pararTodosOsSons(); // Interrompe sons anteriores
+                    if (tipo === "verdadeiras") {
+                        const som = document.getElementById("somReal");
+                        som.play();
                     } else {
-
-                        document.getElementById(
-                            "textoTelefone"
-                        ).innerText =
-                            "AGORA: " +
-                            telefoneTipo;
-
-                       mostrarAvisoTelefone(
-    "MUNIÇÃO PREVISTA!",
-    "A próxima munição é: " + telefoneTipo
-);
-
-telefoneAtivo = false;
-
-// Mostra somente o botão correto
-if (telefoneTipo === "Verdadeira") {
-
-    document.getElementById(
-        "btnUsarReal"
-    ).style.display = "block";
-
-    document.getElementById(
-        "btnUsarFestim"
-    ).style.display = "none";
-
-} else {
-
-    document.getElementById(
-        "btnUsarFestim"
-    ).style.display = "block";
-
-    document.getElementById(
-        "btnUsarReal"
-    ).style.display = "none";
-}
-
-document.getElementById(
-    "btnConfirmarTelefone"
-).style.display = "block";
-
-document.getElementById(
-    "telefoneInfo"
-).style.display = "none";
-
-document.getElementById(
-    "painelTelefone"
-).style.display = "none";
+                        const som = document.getElementById("somFestim");
+                        som.play();
+                    }
+                }
+                
+                if (document.getElementById("btnUsarReal").style.display === "none" ||
+                    document.getElementById("btnUsarFestim").style.display === "none") {
+                    document.getElementById("btnUsarReal").style.display = "block";
+                    document.getElementById("btnUsarFestim").style.display = "block";
+                }
+                
+                quantidade--;
+                elemento.innerText = quantidade;
+                
+                if (telefoneAtivo) {
+                    telefonePosicao--;
+                    if (telefonePosicao > 0) {
+                        document.getElementById("textoTelefone").innerText = "A previsão é daqui " + telefonePosicao + " munição(ões).";
+                    } else {
+                        document.getElementById("textoTelefone").innerText = "AGORA: " + telefoneTipo;
+                        mostrarAvisoTelefone("MUNIÇÃO PREVISTA!", "A próxima munição é: " + telefoneTipo);
+                        telefoneAtivo = false;
+                        
+                        if (telefoneTipo === "Verdadeira") {
+                            document.getElementById("btnUsarReal").style.display = "block";
+                            document.getElementById("btnUsarFestim").style.display = "none";
+                        } else {
+                            document.getElementById("btnUsarFestim").style.display = "block";
+                            document.getElementById("btnUsarReal").style.display = "none";
+                        }
+                        
+                        document.getElementById("btnConfirmarTelefone").style.display = "block";
+                        document.getElementById("telefoneInfo").style.display = "none";
+                        document.getElementById("painelTelefone").style.display = "none";
                     }
                 }
             }
-
-            const reais =
-                parseInt(
-                    document.getElementById(
-                        "verdadeiras"
-                    ).innerText
-                );
-
-            const festim =
-                parseInt(
-                    document.getElementById(
-                        "festim"
-                    ).innerText
-                );
-
+            
+            const reais = parseInt(document.getElementById("verdadeiras").innerText);
+            const festim = parseInt(document.getElementById("festim").innerText);
+            
             if (reais <= 0 && festim <= 0) {
-
-                mostrarAvisoTelefone(
-                    "SEM MUNIÇÕES",
-                    "Todas as munições acabaram."
-                );
-
-                setTimeout(() => {
-
-                    fecharAvisoTelefone();
-
-                    resetar();
-
-                }, 2500);
-
+                mostrarAvisoTelefone("SEM MUNIÇÕES", "Todas as munições acabaram.");
+                setTimeout(() => { fecharAvisoTelefone(); resetar(); }, 2500);
                 return;
-            }
-
-            if (quantidade === 0) {
-
-                mostrarAvisoTelefone(
-                    "SEM MUNIÇÃO",
-                    tipo === 'verdadeiras'
-                        ? 'As munições verdadeiras acabaram!'
-                        : 'As munições de festim acabaram!'
-                );
             }
         }
 
         function resetar() {
-
-            document.getElementById(
-                'verdadeiras'
-            ).innerText = 1;
-
-            document.getElementById(
-                'festim'
-            ).innerText = 1;
-
-            document.getElementById(
-                "controleReal"
-            ).style.display = "flex";
-
-            document.getElementById(
-                "controleFestim"
-            ).style.display = "flex";
-
-            document.getElementById(
-                "okMunicao"
-            ).style.display = "block";
-
-            document.getElementById(
-                "resetMunicao"
-            ).style.display = "none";
-
-            document.getElementById(
-                "btnUsarReal"
-            ).style.display = "none";
-
-            document.getElementById(
-                "btnUsarFestim"
-            ).style.display = "none";
-
-            document.getElementById(
-                "telefoneCard"
-            ).style.display = "none";
-
-            document.getElementById(
-                "painelTelefone"
-            ).style.display = "none";
-
-            document.getElementById(
-                "btnConfirmarTelefone"
-            ).style.display = "block";
-
+            document.getElementById('verdadeiras').innerText = 1;
+            document.getElementById('festim').innerText = 1;
+            document.getElementById("controleReal").style.display = "flex";
+            document.getElementById("controleFestim").style.display = "flex";
+            document.getElementById("okMunicao").style.display = "block";
+            document.getElementById("resetMunicao").style.display = "none";
+            document.getElementById("btnUsarReal").style.display = "none";
+            document.getElementById("btnUsarFestim").style.display = "none";
+            document.getElementById("telefoneCard").style.display = "none";
+            document.getElementById("painelTelefone").style.display = "none";
+            document.getElementById("btnConfirmarTelefone").style.display = "block";
             telefoneAtivo = false;
         }
 
         function toggleTelefone() {
-
-            const painel =
-                document.getElementById(
-                    "painelTelefone"
-                );
-
-            if (
-                painel.style.display === "none"
-            ) {
-
+            const painel = document.getElementById("painelTelefone");
+            if (painel.style.display === "none") {
                 atualizarPosicoes();
-
                 painel.style.display = "flex";
-
             } else {
-
                 painel.style.display = "none";
             }
         }
 
         function atualizarPosicoes() {
-
-            const reais =
-                parseInt(
-                    document.getElementById(
-                        "verdadeiras"
-                    ).innerText
-                );
-
-            const festim =
-                parseInt(
-                    document.getElementById(
-                        "festim"
-                    ).innerText
-                );
-
-            const total =
-                reais + festim;
-
-            const select =
-                document.getElementById(
-                    "posicaoMunicao"
-                );
-
+            const reais = parseInt(document.getElementById("verdadeiras").innerText);
+            const festim = parseInt(document.getElementById("festim").innerText);
+            const total = reais + festim;
+            const select = document.getElementById("posicaoMunicao");
             select.innerHTML = "";
-
-            const nomes = [
-                "Segunda munição",
-                "Terceira munição",
-                "Quarta munição",
-                "Quinta munição",
-                "Sexta munição",
-                "Sétima munição",
-                "Oitava munição"
-            ];
-
+            const nomes = ["Segunda munição", "Terceira munição", "Quarta munição", "Quinta munição", "Sexta munição", "Sétima munição", "Oitava munição"];
+            
             for (let i = 2; i <= total; i++) {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-                option.value = i - 1;
-
-                option.text =
-                    nomes[i - 2];
-
-                select.appendChild(
-                    option
-                );
+                const option = document.createElement("option");
+                option.value = i - 1; option.text = nomes[i - 2];
+                select.appendChild(option);
             }
         }
 
-        function ativarTelefone() {
-
-            telefonePosicao =
-                parseInt(
-                    document.getElementById(
-                        "posicaoMunicao"
-                    ).value
-                );
-
-            telefoneTipo =
-                document.getElementById(
-                    "tipoMunicao"
-                ).value;
-
+        function activarTelefone() {
+            telefonePosicao = parseInt(document.getElementById("posicaoMunicao").value);
+            telefoneTipo = document.getElementById("tipoMunicao").value;
             telefoneAtivo = true;
-
-            document.getElementById(
-                "telefoneInfo"
-            ).style.display = "block";
-
-            document.getElementById(
-                "textoTelefone"
-            ).innerText =
-                "Previsto: munição "
-                + telefoneTipo +
-                " daqui "
-                + telefonePosicao +
-                " munição(ões).";
-
-            document.getElementById(
-                "btnConfirmarTelefone"
-            ).style.display = "none";
+            document.getElementById("telefoneInfo").style.display = "block";
+            document.getElementById("textoTelefone").innerText = "Previsto: munição " + telefoneTipo + " daqui " + telefonePosicao + " munição(ões).";
+            document.getElementById("btnConfirmarTelefone").style.display = "none";
         }
 
         function mostrarAvisoTelefone(titulo, mensagem) {
-
-            document.getElementById(
-                "tituloAviso"
-            ).innerText = titulo;
-
-            document.getElementById(
-                "mensagemAviso"
-            ).innerText = mensagem;
-
-            document.getElementById(
-                "alertaTelefone"
-            ).style.display = "flex";
+            document.getElementById("tituloAviso").innerText = titulo;
+            document.getElementById("mensagemAviso").innerText = mensagem;
+            document.getElementById("alertaTelefone").style.display = "flex";
         }
-
-        function fecharAvisoTelefone() {
-
-            document.getElementById(
-                "alertaTelefone"
-            ).style.display = "none";
-        }
-
-        let modoAtual = "crescente";
-
-        let valorObjetivo = 0;
+        function fecharAvisoTelefone() { document.getElementById("alertaTelefone").style.display = "none"; }
 
         function iniciarContador() {
-
-            const valor =
-                parseInt(
-                    document.getElementById(
-                        "valorInicial"
-                    ).value
-                ) || 0;
-
-            modoAtual =
-                document.getElementById(
-                    "modoContagem"
-                ).value;
-
-            valorObjetivo = valor;
-
-            const contador =
-                document.getElementById(
-                    "vitorias"
-                );
-
-            if (modoAtual === "crescente") {
-
-                contador.innerText = 0;
-
-            } else {
-
-                contador.innerText = valor;
-            }
-
-            contador.style.transform =
-                "scale(1.2)";
-
-            setTimeout(() => {
-
-                contador.style.transform =
-                    "scale(1)";
-
-            }, 150);
-
-            document.getElementById(
-                "btnOK"
-            ).style.display = "none";
-
-            document.getElementById(
-                "btnZerar"
-            ).style.display = "block";
-
-            document.getElementById(
-                "btnClick"
-            ).style.display = "block";
+            document.getElementById("vitorias").innerText = 0;
+            ganhosTotais = 0;
+            vitoriasSeguidas = 0;
+            emDesafioDobro = false;
+            document.getElementById("btnOK").style.display = "none";
+            document.getElementById("btnZerar").style.display = "block";
+            document.getElementById("btnClick").style.display = "block";
         }
 
         function alterarVitorias() {
-
-            const elemento =
-                document.getElementById(
-                    "vitorias"
-                );
-
-            let valor =
-                parseInt(
-                    elemento.innerText
-                );
-
-            if (modoAtual === "crescente") {
-
-                valor++;
-
-            } else {
-
-                valor--;
-            }
-
+            const elemento = document.getElementById("vitorias");
+            let valor = parseInt(elemento.innerText);
+            
+            valor++; 
+            vitoriasSeguidas++; 
             elemento.innerText = valor;
 
-            verificarVitoria(valor);
-        }
-
-        function verificarVitoria(valor) {
-
-            if (
-                modoAtual === "decrescente"
-                && valor <= 0
-            ) {
-
-                telaComemoracao();
-
-            }
-
-            if (
-                modoAtual === "crescente"
-                && valor >= valorObjetivo
-            ) {
-
-                telaComemoracao();
-
+            if (vitoriasSeguidas === 3) {
+                if (emDesafioDobro) {
+                    ganhosTotais = ganhosTotais * 2;
+                    emDesafioDobro = false;
+                    atualizarPainelGanhos();
+                }
+                abrirModalDobro();
             }
         }
 
-        function telaComemoracao() {
+        function abrirModalDobro() {
+            const display = document.getElementById("display");
+            if (ganhosTotais === 0) {
+                display.innerHTML = "3 VITÓRIAS!<br>DOBRO OU NADA?";
+            } else {
+                display.innerHTML = "SALDO: $" + ganhosTotais + "<br>DOBRO OU NADA?";
+            }
 
-            document.getElementById(
-                "comemoracao"
-            ).style.display = "flex";
+            // TOCA SOM DO MODAL CORTANDO QUALQUER OUTRO ANTERIOR
+            if (sonsAtivados) {
+                pararTodosOsSons();
+                const somModal = document.getElementById("somModal");
+                somModal.play();
+            }
+
+            document.getElementById("modalDobro").style.display = "flex";
         }
 
-        function fecharComemoracao() {
+        function finalizarJogoELevarGrana() {
+            if (ganhosTotais === 0) {
+                alert("Você decidiu não arriscar no Dobro ou Nada. O contador foi resetado.");
+                zerarContador();
+                return;
+            }
 
-            document.getElementById(
-                "comemoracao"
-            ).style.display = "none";
+            if (ganhosTotais >= 1000000) {
+                document.getElementById("textoFinalSucesso").innerHTML = `Você levou a mala preta contendo <b>$${ganhosTotais}</b>!<br>A banca quebrou e você saiu vivo.`;
+                abrirModalMeta();
+            } else {
+                alert(`Você decidiu parar! Saiu da mesa com o total seguro de $${ganhosTotais}.`);
+                zerarContador();
+            }
+        }
+
+        function atualizarPainelGanhos() {
+            document.getElementById("exibicaoGanhos").innerText = "$" + ganhosTotais;
+            document.getElementById("painelGanhos").style.display = "block";
+            
+            if (ganhosTotais > 0 && ganhosTotais < 1000000) {
+                if (emDesafioDobro) {
+                    document.getElementById("textoMeta").innerText = `EM RISCO! Vença +3 rodadas para coletar $${ganhosTotais * 2}`;
+                } else {
+                    document.getElementById("textoMeta").innerText = `Dinheiro seguro. Próximo dobro valerá $${ganhosTotais * 2}`;
+                }
+            } else if (ganhosTotais >= 1000000) {
+                document.getElementById("textoMeta").innerText = "META DE $1M ALCANÇADA! APERTE 'X' NA MALA PARA FINALIZAR! 💸";
+            }
+        }
+
+        function fecharModalDobro() { document.getElementById("modalDobro").style.display = "none"; }
+        function abrirModalMeta() { document.getElementById("modalMeta").style.display = "flex"; }
+        function fecharModalMeta() { 
+            document.getElementById("modalMeta").style.display = "none"; 
+            zerarContador();
         }
 
         function zerarContador() {
-
-            document.getElementById(
-                "vitorias"
-            ).innerText = 0;
-
-            document.getElementById(
-                "btnOK"
-            ).style.display = "block";
-
-            document.getElementById(
-                "btnZerar"
-            ).style.display = "none";
-
-            document.getElementById(
-                "btnClick"
-            ).style.display = "none";
+            document.getElementById("vitorias").innerText = 0;
+            ganhosTotais = 0;
+            vitoriasSeguidas = 0;
+            emDesafioDobro = false;
+            document.getElementById("painelGanhos").style.display = "none";
+            document.getElementById("btnOK").style.display = "block";
+            document.getElementById("btnZerar").style.display = "none";
+            document.getElementById("btnClick").style.display = "none";
         }
 
+        // --- SISTEMA DE CLIQUE DAS OVERLAYS ---
+        const btnCheck = document.getElementById('btn-check');
+        const btnX = document.getElementById('btn-x');
+        const display = document.getElementById('display');
 
+        btnCheck.addEventListener('click', () => {
+            // LÓGICA CORRIGIDA: Pergunta primeiro antes de rodar os efeitos e sons
+            if (ganhosTotais === 0) {
+                let valorInput = prompt("Qual o valor base ganho nestas 3 rodadas? (Ex: 1000)");
+                
+                // Se cancelar, sai da função sem alterar nada no modal ou tocar sons
+                if (valorInput === null) {
+                    return; 
+                }
+
+                let valor = parseInt(valorInput);
+
+                // Se deixar vazio, zero ou inválido, alerta e sai da função
+                if (isNaN(valor) || valor <= 0) {
+                    alert("Aposta inválida! Você precisa digitar um valor maior que zero.");
+                    return; 
+                }
+                
+                ganhosTotais = valor;
+            }
+
+            // Se o valor for válido (ou se o saldo já era maior que zero), avança com o desafio:
+            pararTodosOsSons(); // Interrompe o som do modal imediatamente
+            triggerScreenEffect();
+
+            if (sonsAtivados) {
+                const somAceitar = document.getElementById("somAceitar");
+                somAceitar.play();
+            }
+
+            display.innerHTML = "DOBRO ACEITO!<br>GANHE MAIS 3.";
+            
+            emDesafioDobro = true;
+            vitoriasSeguidas = 0; 
+            atualizarPainelGanhos();
+
+            setTimeout(() => {
+                fecharModalDobro();
+            }, 1200);
+        });
+
+        btnX.addEventListener('click', () => {
+            pararTodosOsSons(); // Interrompe sons anteriores ao coletar
+            triggerScreenEffect();
+            display.innerHTML = "RECOMPENSA<br>COLETADA.";
+            setTimeout(() => {
+                fecharModalDobro();
+                finalizarJogoELevarGrana();
+            }, 1200);
+        });
     </script>
-
-
-
 </body>
-
 </html>
