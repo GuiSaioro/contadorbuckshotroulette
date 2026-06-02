@@ -69,13 +69,18 @@
         }
         
         .container3, .municoes {
-            display: flex; gap: 20px; justify-content: center; align-items: stretch; flex-wrap: wrap;
+            display: flex;
+            gap: 20px;
+            row-gap: 10px;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
         }
         .municoes {
-		align-items: center;
-		align-content:center;
-		max-width: 72%;
-		}
+            align-items: center;
+            align-content: center;
+            max-width: 72%;
+        }
 
         .game-container {
             position: relative;
@@ -108,25 +113,25 @@
         #btn-x { top: 7%; left: 54%; width: 36%; height: 15%; }
 
         .text-display {
-                position: absolute;
-    top: 65%;
-    left: 25%;
-    width: 50%;
-    height: 13%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #00ff0a;
-    font-size: clamp(1rem, 3.7cqw, 2.3rem);
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-align: center;
-    line-height: 1.2;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    pointer-events: none;
-    background-color: #000;
+            position: absolute;
+            top: 65%;
+            left: 25%;
+            width: 50%;
+            height: 13%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #00ff0a;
+            font-size: clamp(1rem, 3.7cqw, 2.3rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            background-color: #000;
         }
 
         .flash {
@@ -231,7 +236,7 @@
         <div style="display:flex;justify-content:center;align-items:flex-start;flex-direction: row; width: 100%; flex-wrap: wrap; gap: 20px;">
             <div class="municoes">
                 <div class="container3">
-                    <div class="card">
+                    <div class="card" style="min-height: 402px;">
                         <div class="municao-img real">
                             <img src="https://i.namu.wiki/i/hhgWyMvBTJ313SrH4Dt9gkJiqcHUiB1Q_-8kwpZlUyoYDTg-7apS8qk2a0iolkI8sz_3-2t7f9Zp_5Brs7Rm3A.webp">
                         </div>
@@ -389,21 +394,18 @@
             let mudouParaAgora = false;
             
             if (quantidade > 0) {
-                //triggerScreenEffect();
-
                 if (sonsAtivados) {
                     pararTodosOsSons();
                     if (tipo === "verdadeiras") {
                         document.getElementById("somReal").play();
-			triggerScreenEffect();
-
+                        triggerScreenEffect();
                     } else {
                         document.getElementById("somFestim").play();
                     }
                 }
                 
                 quantidade--;
-                elemento.innerText = quantidade;
+                elemento.innerText = quantity = quantidade;
                 
                 if (telefoneAtivo) {
                     telefonePosicao--;
@@ -464,6 +466,8 @@
             document.getElementById("telefoneCard").style.display = "none";
             document.getElementById("painelTelefone").style.display = "none";
             document.getElementById("btnConfirmarTelefone").style.display = "block";
+            document.getElementById("telefoneInfo").style.display = "none";
+            document.getElementById("textoTelefone").innerText = ""; 
             
             document.getElementById("posicaoMunicao").disabled = false;
             document.getElementById("tipoMunicao").disabled = false;
@@ -472,10 +476,29 @@
         }
 
         function toggleTelefone() {
+            const reais = parseInt(document.getElementById("verdadeiras").innerText);
+            const festim = parseInt(document.getElementById("festim").innerText);
+
+            if (reais === 0 || festim === 0) {
+                mostrarAvisoTelefone("LINHA BLOQUEADA", "Infelizmente não. Como um dos tipos de munição chegou a zero, o resto da sequência já é óbvio.");
+                return;
+            }
+
             const painel = document.getElementById("painelTelefone");
+            const infoBox = document.getElementById("telefoneInfo");
+            const btnConfirmar = document.getElementById("btnConfirmarTelefone");
+
             if (painel.style.display === "none") {
                 atualizarPosicoes();
                 painel.style.display = "flex";
+                
+                if (!telefoneAtivo) {
+                    infoBox.style.display = "none";
+                    btnConfirmar.style.display = "block";
+                } else {
+                    infoBox.style.display = "block";
+                    btnConfirmar.style.display = "none";
+                }
             } else {
                 painel.style.display = "none";
             }
@@ -496,6 +519,7 @@
             }
         }
 
+        // CORRIGIDO: Tirado o "c" mudo para casar com o HTML
         function ativarTelefone() {
             telefonePosicao = parseInt(document.getElementById("posicaoMunicao").value);
             telefoneTipo = document.getElementById("tipoMunicao").value;
