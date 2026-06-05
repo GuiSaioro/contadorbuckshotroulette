@@ -1,5 +1,4 @@
 
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -219,63 +218,7 @@
             button { width: 100%; }
             .controles { flex-direction: column; }
         }
-    
-.visor-rodada{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    margin:15px 0;
-    padding:12px;
-    background:#000;
-    border:2px solid #3f3f3f;
-    border-radius:8px;
-}
-.slot-rodada{text-align:center;}
-.slot-rodada .romano{font-size:48px;color:#e8f5dc;line-height:1;}
-.luz{
-    width:26px;
-    height:26px;
-    border-radius:50%;
-    border:3px solid #dff5d5;
-    margin:6px auto 0 auto;
-    position:relative;
-}
-
-/* círculo interno apagado */
-.luz::after{
-    content:"";
-    position:absolute;
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:#dff5d5;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    opacity:0;
-}
-
-/* círculo interno aceso */
-.luz.ativa::after{
-    opacity:1;
-    box-shadow:
-        0 0 8px rgba(220,255,220,.8),
-        0 0 15px rgba(220,255,220,.5);
-}
-
-@keyframes piscaRodada{
-    0%,100% { opacity:1; }
-    50% { opacity:0; }
-}
-
-.luz.piscando::after{
-    animation: piscaRodada 0.75s linear 4;
-}
-
-
-#faltamMilhao{display:none;margin-top:10px;font-size:15px;color:#d6c08f;}
-
-</style>
+    </style>
 </head>
 <body>
     <div class="flash" id="screen-flash"></div>
@@ -284,8 +227,6 @@
     <audio id="somFestim" preload="auto"><source src="sons/festim.mp3" type="audio/mpeg"></audio>
     <audio id="somModal" preload="auto"><source src="sons/abrir_modal.mp3" type="audio/mpeg"></audio>
     <audio id="somAceitar" preload="auto"><source src="sons/aceitar_desafio.mp3" type="audio/mpeg"></audio>
-    <audio id="somrodada" preload="auto"><source src="sons/audioled.mp3" type="audio/mpeg"></audio>
-
     
     <div style="display: flex;align-items: end;flex-wrap: nowrap;flex-direction: row;">
         <h1>Buckshot Roulette</h1>
@@ -349,26 +290,9 @@
                 </div>
             </div>
             
-            <div class="card"style="max-width: 300px;">
+            <div class="card">
                 <h2>Contador de Vitórias</h2>
                 <div class="numero" id="vitorias">0</div>
-
-<div class="visor-rodada">
-    <div class="slot-rodada">
-        <div class="romano">I</div>
-        <div id="luz1" class="luz ativa"></div>
-    </div>
-    <div class="slot-rodada">
-        <div class="romano">II</div>
-        <div id="luz2" class="luz"></div>
-    </div>
-    <div class="slot-rodada">
-        <div class="romano">III</div>
-        <div id="luz3" class="luz"></div>
-    </div>
-</div>
-<div id="faltamMilhao"></div>
-
                 
                 <div id="painelGanhos">
                     <div style="font-size: 14px;">DINHEIRO GARANTIDO:</div>
@@ -624,27 +548,33 @@
             document.getElementById("btnOK").style.display = "none";
             document.getElementById("btnZerar").style.display = "block";
             document.getElementById("btnClick").style.display = "block";
-            atualizarRodadaVisual();
         }
 
         function alterarVitorias() {
-            const elemento = document.getElementById("vitorias");
-            let valor = parseInt(elemento.innerText);
-            
-            valor++; 
-            vitoriasSeguidas++; 
-            elemento.innerText = valor;
-            atualizarRodadaVisual();
+    const elemento = document.getElementById("vitorias");
+    let valor = parseInt(elemento.innerText);
 
-            if (vitoriasSeguidas === 3) {
-                if (emDesafioDobro) {
-                    ganhosTotais = ganhosTotais * 2;
-                    emDesafioDobro = false;
-                    atualizarPainelGanhos();
-                }
-                abrirModalDobro();
-            }
+    valor++;
+    vitoriasSeguidas++;
+    elemento.innerText = valor;
+if (emDesafioDobro) {
+    atualizarPainelGanhos();
+}
+
+
+    // Concluiu o dobro ou nada
+    if (vitoriasSeguidas === 3) {
+        if (emDesafioDobro) {
+            ganhosTotais *= 2;
+emDesafioDobro = false;
+vitoriasSeguidas = 0;
+atualizarPainelGanhos();
         }
+
+        abrirModalDobro();
+    }
+
+}
 
         function abrirModalDobro() {
             const display = document.getElementById("display");
@@ -678,21 +608,42 @@
             }
         }
 
+	function calcularRodadasParaMilhao() {
+    if (ganhosTotais <= 0) return "-";
+
+    let valor = ganhosTotais;
+    let dobradasNecessarias = 0;
+
+    while (valor < 1000000) {
+        valor *= 2;
+        dobradasNecessarias++;
+    }
+
+    // cada dobro precisa de 3 vitórias
+    let rodadas = dobradasNecessarias * 3;
+
+    // desconta as rodadas já vencidas do desafio atual
+    if (emDesafioDobro) {
+        rodadas -= vitoriasSeguidas;
+    }
+
+    return rodadas;
+}
+
         function atualizarPainelGanhos() {
-            document.getElementById("exibicaoGanhos").innerText = "$" + ganhosTotais;
-            document.getElementById("painelGanhos").style.display = "block";
-            
-            if (ganhosTotais > 0 && ganhosTotais < 1000000) {
-                if (emDesafioDobro) {
-                    document.getElementById("textoMeta").innerText = `Vença +3 rodadas para coletar $${ganhosTotais * 2}`;
-                } else {
-                    document.getElementById("textoMeta").innerText = `Dinheiro seguro. Próximo dobro valerá $${ganhosTotais * 2}`;
-                }
-            } else if (ganhosTotais >= 1000000) {
-                document.getElementById("textoMeta").innerText = "META DE $1M ALCANÇADA! APERTE 'X' NA MALA PARA FINALIZAR! 💸";
-            }
-            atualizarMetaMilhao();
-        }
+    document.getElementById("exibicaoGanhos").innerText = "$" + ganhosTotais;
+    document.getElementById("painelGanhos").style.display = "block";
+
+    const faltamRodadas = calcularRodadasParaMilhao();
+
+    if (ganhosTotais > 0 && ganhosTotais < 1000000) {
+        document.getElementById("textoMeta").innerText =
+            `Faltam ${faltamRodadas} rodadas para $1.000.000`;
+    } else if (ganhosTotais >= 1000000) {
+        document.getElementById("textoMeta").innerText =
+            "META DE $1M ALCANÇADA! APERTE 'X' NA MALA PARA FINALIZAR! 💸";
+    }
+}
 
         function fecharModalDobro() { document.getElementById("modalDobro").style.display = "none"; }
         function abrirModalMeta() { document.getElementById("modalMeta").style.display = "flex"; }
@@ -710,7 +661,6 @@
             document.getElementById("btnOK").style.display = "block";
             document.getElementById("btnZerar").style.display = "none";
             document.getElementById("btnClick").style.display = "none";
-            atualizarRodadaVisual();
         }
 
         const btnCheck = document.getElementById('btn-check');
@@ -762,63 +712,6 @@
                 finalizarJogoELevarGrana();
             }, 1200);
         });
-    
-function atualizarRodadaVisual(){
-    const total = parseInt(document.getElementById("vitorias").innerText) || 0;
-
-    const luzes = [
-        document.getElementById("luz1"),
-        document.getElementById("luz2"),
-        document.getElementById("luz3")
-    ];
-
-    luzes.forEach(l => {
-        l.classList.remove("ativa");
-        l.classList.remove("piscando");
-    });
-
-    const rodada = total % 3;
-
-    let luzAtual;
-
-    if(rodada === 0) luzAtual = document.getElementById("luz1");
-    if(rodada === 1) luzAtual = document.getElementById("luz2");
-    if(rodada === 2) luzAtual = document.getElementById("luz3");
-
-    luzAtual.classList.add("ativa");
-
-    // reinicia animação
-    void luzAtual.offsetWidth;
-
-    luzAtual.classList.add("piscando");
-	document.getElementById("somrodada").play();
-
-    atualizarMetaMilhao();
-}
-
-function atualizarMetaMilhao(){
-    const info=document.getElementById("faltamMilhao");
-
-    if(ganhosTotais<=0){
-        info.style.display="none";
-        return;
-    }
-
-    if(ganhosTotais>=1000000){
-        info.style.display="block";
-        info.innerText="META DE R$ 1.000.000 ALCANÇADA";
-        return;
-    }
-
-    const dobradasNecessarias=Math.ceil(Math.log2(1000000/ganhosTotais));
-    const vitoriasFaltando=dobradasNecessarias*3;
-
-    info.style.display="block";
-    info.innerText=`Faltam ${vitoriasFaltando} vitórias para chegar a R$ 1.000.000`;
-}
-
-
-atualizarRodadaVisual();
-</script>
+    </script>
 </body>
 </html>
