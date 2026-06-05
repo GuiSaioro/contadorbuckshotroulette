@@ -1,4 +1,3 @@
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,9 +5,9 @@
     <title>Buckshot Roulette - Contador</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Special Elite', monospace;
             background:
@@ -28,7 +27,7 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        
+
         body::before {
             content: ""; position: fixed; inset: 0;
             background-image:
@@ -36,7 +35,7 @@
                     rgba(255, 255, 255, 0.02) 1px, transparent 2px);
             opacity: 0.12; pointer-events: none; animation: noise 0.15s infinite;
         }
-        
+
         body::after {
             content: ""; position: fixed; inset: 0;
             background:
@@ -45,7 +44,7 @@
                     rgba(255, 255, 255, 0.02) 1px, transparent 2px, transparent 4px);
             pointer-events: none; opacity: 0.12;
         }
-        
+
         @keyframes noise {
             0% { transform: translate(0, 0); }
             25% { transform: translate(-1px, 1px); }
@@ -53,13 +52,13 @@
             75% { transform: translate(-2px, 0); }
             100% { transform: translate(2px, 1px); }
         }
-        
+
         h1 {
             text-align: center; margin-bottom: 30px; font-size: 52px;
             color: #d9b36c; letter-spacing: 4px; text-transform: uppercase;
             text-shadow: 0 0 10px rgba(255, 180, 80, 0.4), 0 0 25px rgba(255, 80, 0, 0.25);
         }
-        
+
         .container {
             width: 1400px; max-width: 100%;
             background: linear-gradient(180deg, rgba(35, 35, 35, 0.96), rgba(10, 10, 10, 0.98));
@@ -68,7 +67,7 @@
             flex-wrap: wrap;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(255, 180, 50, 0.06);
         }
-        
+
         .container3, .municoes {
             display: flex;
             gap: 20px;
@@ -98,7 +97,7 @@
             object-fit: fill;
             pointer-events: none;
         }
-        
+
         .btn-overlay {
             position: absolute;
             cursor: pointer;
@@ -153,7 +152,7 @@
             transition: 0.2s;
         }
         .card:hover { transform: translateY(-2px); }
-        
+
         .municao-img {
             width: 110px; height: 110px; margin: auto; margin-bottom: 18px;
             display: flex; justify-content: center; align-items: center;
@@ -162,12 +161,12 @@
         .real { border: 2px solid #8f2d1f; }
         .blank { border: 2px solid #a07a20; }
         .municao-img img { width: 80px; height: 80px; object-fit: contain; }
-        
+
         h2 { margin-bottom: 12px; color: #d6c08f; }
         .numero { font-size: 70px; font-weight: bold; margin-bottom: 15px; color: #f3ddb0; }
         .controles { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .som { width: fit-content; height: auto; align-self: end; }
-        
+
         button {
             min-width: 100px; border: 1px solid #66553a; border-radius: 6px; padding: 12px;
             font-size: 15px; font-family: 'Special Elite', monospace; font-weight: bold;
@@ -180,27 +179,27 @@
         .usar-real { border-color: #8f2d1f; }
         .usar-blank { border-color: #a07a20; }
         .reset { border-color: #3d6480; }
-        
+
         input, select {
             width: 100%; padding: 12px; border: 1px solid #5d5037; border-radius: 6px;
             background: #161616; color: #e6d2a4; font-size: 16px;
             font-family: 'Special Elite', monospace; outline: none;
         }
-        
+
         .telefone-card { max-width: 280px; margin: auto; }
         .telefone-btn { background: none; border: none; box-shadow: none; }
         .telefone-btn img { width: 100px; height: 100px; object-fit: contain; }
-        
+
         #painelTelefone { margin-top: 15px; align-content: center; }
         #telefoneInfo { margin-top: 15px; padding: 12px; border: 1px solid #5a4d34; border-radius: 6px; background: #111; }
-        
+
         .comemoracao {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
             display: none; justify-content: center; align-items: center;
             flex-direction: column; z-index: 998; padding: 20px;
         }
         .comemoracao h1 { font-size: clamp(32px, 8vw, 72px); color: #79ff9e; text-align: center; }
-        
+
         #painelGanhos {
             margin-top: 15px; padding: 15px;
             background: rgba(0, 255, 100, 0.05); border: 1px solid #3f7a4d; border-radius: 8px;
@@ -208,7 +207,7 @@
         }
         .valor-ganho { color: #79ff9e; font-size: 28px; text-shadow: 0 0 10px rgba(121, 255, 158, 0.3); }
         .meta-1000k { font-size: 14px; color: #d6c08f; margin-top: 5px; font-style: italic; }
-        
+
         @media(max-width:850px) {
             body { padding: 10px; }
             h1 { font-size: 32px; }
@@ -218,7 +217,63 @@
             button { width: 100%; }
             .controles { flex-direction: column; }
         }
-    </style>
+
+.visor-rodada{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin:15px 0;
+    padding:12px;
+    background:#000;
+    border:2px solid #3f3f3f;
+    border-radius:8px;
+}
+.slot-rodada{text-align:center;}
+.slot-rodada .romano{font-size:48px;color:#e8f5dc;line-height:1;}
+.luz{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:3px solid #dff5d5;
+    margin:6px auto 0 auto;
+    position:relative;
+}
+
+/* círculo interno apagado */
+.luz::after{
+    content:"";
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#dff5d5;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    opacity:0;
+}
+
+/* círculo interno aceso */
+.luz.ativa::after{
+    opacity:1;
+    box-shadow:
+        0 0 8px rgba(220,255,220,.8),
+        0 0 15px rgba(220,255,220,.5);
+}
+
+@keyframes piscaRodada{
+    0%,100% { opacity:1; }
+    50% { opacity:0; }
+}
+
+.luz.piscando::after{
+    animation: piscaRodada 0.75s linear 4;
+}
+
+
+#faltamMilhao{display:none;margin-top:10px;font-size:15px;color:#d6c08f;}
+
+</style>
 </head>
 <body>
     <div class="flash" id="screen-flash"></div>
@@ -227,12 +282,14 @@
     <audio id="somFestim" preload="auto"><source src="sons/festim.mp3" type="audio/mpeg"></audio>
     <audio id="somModal" preload="auto"><source src="sons/abrir_modal.mp3" type="audio/mpeg"></audio>
     <audio id="somAceitar" preload="auto"><source src="sons/aceitar_desafio.mp3" type="audio/mpeg"></audio>
-    
+    <audio id="somrodada" preload="auto"><source src="sons/audioled.mp3" type="audio/mpeg"></audio>
+
+
     <div style="display: flex;align-items: end;flex-wrap: nowrap;flex-direction: row;">
         <h1>Buckshot Roulette</h1>
         <button class="som" id="btnSom" onclick="toggleSom()">🔊 SOM LIGADO</button>
     </div>
-    
+
     <div class="container">
         <div style="display:flex;justify-content:center;align-items:flex-start;flex-direction: row; width: 100%; flex-wrap: wrap; gap: 20px;">
             <div class="municoes">
@@ -249,7 +306,7 @@
                         </div>
                         <button class="usar-real" id="btnUsarReal" onclick="usarMunicao('verdadeiras')" style="margin-top:15px;width:100%;display:none;">Usar Real</button>
                     </div>
-                    
+
                     <div class="card">
                         <div class="municao-img blank">
                             <img src="https://i.namu.wiki/i/RRTdH6dsrdJbbBuqZOp90RnBrgaw2TqenuzEap3Z9YJOXJ4fgSwzAK0dxSuq4XjcpkyD9fr12KS-GL9YJwriDQ.webp">
@@ -262,7 +319,7 @@
                         </div>
                         <button class="usar-blank" id="btnUsarFestim" onclick="usarMunicao('festim')" style="margin-top:15px;width:100%;display:none;">Usar Festim</button>
                     </div>
-                    
+
                     <div class="card telefone-card" id="telefoneCard" style="display:none;">
                         <button class="telefone-btn" onclick="toggleTelefone()">
                             <img src="img/telefone.png">
@@ -283,17 +340,34 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div style="margin:20px;width:100%;max-width:420px;">
                     <button class="btn-maior" id="okMunicao" onclick="confirmarMunicoes()" style="width:100%;height:80px;font-size:28px;">INICIAR</button>
                     <button class="reset" id="resetMunicao" onclick="resetar()" style="width:100%;height:80px;font-size:24px;display:none;">RESETAR</button>
                 </div>
             </div>
-            
-            <div class="card">
+
+            <div class="card"style="max-width: 300px;">
                 <h2>Contador de Vitórias</h2>
                 <div class="numero" id="vitorias">0</div>
-                
+
+<div class="visor-rodada">
+    <div class="slot-rodada">
+        <div class="romano">I</div>
+        <div id="luz1" class="luz ativa"></div>
+    </div>
+    <div class="slot-rodada">
+        <div class="romano">II</div>
+        <div id="luz2" class="luz"></div>
+    </div>
+    <div class="slot-rodada">
+        <div class="romano">III</div>
+        <div id="luz3" class="luz"></div>
+    </div>
+</div>
+<div id="faltamMilhao"></div>
+
+
                 <div id="painelGanhos">
                     <div style="font-size: 14px;">DINHEIRO GARANTIDO:</div>
                     <div class="valor-ganho" id="exibicaoGanhos">$0</div>
@@ -308,13 +382,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="comemoracao" id="alertaTelefone">
         <h1 id="tituloAviso">ALERTA</h1>
         <div id="mensagemAviso" style="font-size:28px;margin-top:20px;text-align:center;max-width:600px;padding:20px;">Mensagem</div>
         <button class="reset" onclick="fecharAvisoTelefone()">FECHAR</button>
     </div>
-    
+
     <div class="comemoracao" id="modalDobro">
         <div class="game-container">
             <img src="img/dobroounada.png" alt="Máquina Buckshot Roulette" class="game-image">
@@ -336,7 +410,7 @@
         let telefonePosicao = 0;
         let telefoneTipo = "";
         let sonsAtivados = localStorage.getItem("sonsAtivados") !== "false";
-        
+
         let ganhosTotais = 0;
         let vitoriasSeguidas = 0;
         let emDesafioDobro = false; 
@@ -383,7 +457,7 @@
             document.getElementById("controleFestim").style.display = "none";
             document.getElementById("okMunicao").style.display = "none";
             document.getElementById("resetMunicao").style.display = "block";
-            
+
             document.getElementById("btnUsarReal").style.display = reais > 0 ? "block" : "none";
             document.getElementById("btnUsarFestim").style.display = festim > 0 ? "block" : "none";
             document.getElementById("telefoneCard").style.display = "block";
@@ -393,7 +467,7 @@
             const elemento = document.getElementById(tipo);
             let quantidade = parseInt(elemento.innerText);
             let mudouParaAgora = false;
-            
+
             if (quantidade > 0) {
                 if (sonsAtivados) {
                     pararTodosOsSons();
@@ -404,10 +478,10 @@
                         document.getElementById("somFestim").play();
                     }
                 }
-                
+
                 quantidade--;
                 elemento.innerText = quantity = quantidade;
-                
+
                 if (telefoneAtivo) {
                     telefonePosicao--;
                     if (telefonePosicao > 0) {
@@ -417,20 +491,20 @@
                         mostrarAvisoTelefone("MUNIÇÃO PREVISTA!", "A próxima munição é " + telefoneTipo);
                         telefoneAtivo = false;
                         mudouParaAgora = true;
-                        
+
                         document.getElementById("posicaoMunicao").disabled = false;
                         document.getElementById("tipoMunicao").disabled = false;
-                        
+
                         document.getElementById("btnConfirmarTelefone").style.display = "block";
                         document.getElementById("telefoneInfo").style.display = "none";
                         document.getElementById("painelTelefone").style.display = "none";
                     }
                 }
             }
-            
+
             const reaisRestantes = parseInt(document.getElementById("verdadeiras").innerText);
             const festimRestantes = parseInt(document.getElementById("festim").innerText);
-            
+
             if (!telefoneAtivo && document.getElementById("textoTelefone").innerText.startsWith("AGORA") && !mudouParaAgora) {
                 document.getElementById("textoTelefone").innerText = "";
             }
@@ -447,7 +521,7 @@
                 document.getElementById("btnUsarReal").style.display = reaisRestantes > 0 ? "block" : "none";
                 document.getElementById("btnUsarFestim").style.display = festimRestantes > 0 ? "block" : "none";
             }
-            
+
             if (reaisRestantes <= 0 && festimRestantes <= 0) {
                 mostrarAvisoTelefone("SEM MUNIÇÕES", "Todas as munições acabaram.");
                 setTimeout(() => { fecharAvisoTelefone(); resetar(); }, 2500);
@@ -469,10 +543,10 @@
             document.getElementById("btnConfirmarTelefone").style.display = "block";
             document.getElementById("telefoneInfo").style.display = "none";
             document.getElementById("textoTelefone").innerText = ""; 
-            
+
             document.getElementById("posicaoMunicao").disabled = false;
             document.getElementById("tipoMunicao").disabled = false;
-            
+
             telefoneAtivo = false;
         }
 
@@ -492,7 +566,7 @@
             if (painel.style.display === "none") {
                 atualizarPosicoes();
                 painel.style.display = "flex";
-                
+
                 if (!telefoneAtivo) {
                     infoBox.style.display = "none";
                     btnConfirmar.style.display = "block";
@@ -512,7 +586,7 @@
             const select = document.getElementById("posicaoMunicao");
             select.innerHTML = "";
             const nomes = ["Segundo Cartucho", "Terceiro Cartucho", "Quarto Cartucho", "Quinto Cartucho", "Sexto Cartucho", "Sétimo Cartucho", "Oitavo Cartucho"];
-            
+
             for (let i = 2; i <= total; i++) {
                 const option = document.createElement("option");
                 option.value = i - 1; option.text = nomes[i - 2];
@@ -528,7 +602,7 @@
             document.getElementById("telefoneInfo").style.display = "block";
             document.getElementById("textoTelefone").innerText = "Munição " + telefoneTipo + " daqui " + telefonePosicao + " Rodada(s)";
             document.getElementById("btnConfirmarTelefone").style.display = "none";
-            
+
             document.getElementById("posicaoMunicao").disabled = true;
             document.getElementById("tipoMunicao").disabled = true;
         }
@@ -548,33 +622,27 @@
             document.getElementById("btnOK").style.display = "none";
             document.getElementById("btnZerar").style.display = "block";
             document.getElementById("btnClick").style.display = "block";
+            atualizarRodadaVisual();
         }
 
         function alterarVitorias() {
-    const elemento = document.getElementById("vitorias");
-    let valor = parseInt(elemento.innerText);
+            const elemento = document.getElementById("vitorias");
+            let valor = parseInt(elemento.innerText);
 
-    valor++;
-    vitoriasSeguidas++;
-    elemento.innerText = valor;
-if (emDesafioDobro) {
-    atualizarPainelGanhos();
-}
+            valor++; 
+            vitoriasSeguidas++; 
+            elemento.innerText = valor;
+            atualizarRodadaVisual();
 
-
-    // Concluiu o dobro ou nada
-    if (vitoriasSeguidas === 3) {
-        if (emDesafioDobro) {
-            ganhosTotais *= 2;
-emDesafioDobro = false;
-vitoriasSeguidas = 0;
-atualizarPainelGanhos();
+            if (vitoriasSeguidas === 3) {
+                if (emDesafioDobro) {
+                    ganhosTotais = ganhosTotais * 2;
+                    emDesafioDobro = false;
+                    atualizarPainelGanhos();
+                }
+                abrirModalDobro();
+            }
         }
-
-        abrirModalDobro();
-    }
-
-}
 
         function abrirModalDobro() {
             const display = document.getElementById("display");
@@ -608,42 +676,21 @@ atualizarPainelGanhos();
             }
         }
 
-	function calcularRodadasParaMilhao() {
-    if (ganhosTotais <= 0) return "-";
-
-    let valor = ganhosTotais;
-    let dobradasNecessarias = 0;
-
-    while (valor < 1000000) {
-        valor *= 2;
-        dobradasNecessarias++;
-    }
-
-    // cada dobro precisa de 3 vitórias
-    let rodadas = dobradasNecessarias * 3;
-
-    // desconta as rodadas já vencidas do desafio atual
-    if (emDesafioDobro) {
-        rodadas -= vitoriasSeguidas;
-    }
-
-    return rodadas;
-}
-
         function atualizarPainelGanhos() {
-    document.getElementById("exibicaoGanhos").innerText = "$" + ganhosTotais;
-    document.getElementById("painelGanhos").style.display = "block";
+            document.getElementById("exibicaoGanhos").innerText = "$" + ganhosTotais;
+            document.getElementById("painelGanhos").style.display = "block";
 
-    const faltamRodadas = calcularRodadasParaMilhao();
-
-    if (ganhosTotais > 0 && ganhosTotais < 1000000) {
-        document.getElementById("textoMeta").innerText =
-            `Faltam ${faltamRodadas} rodadas para $1.000.000`;
-    } else if (ganhosTotais >= 1000000) {
-        document.getElementById("textoMeta").innerText =
-            "META DE $1M ALCANÇADA! APERTE 'X' NA MALA PARA FINALIZAR! 💸";
-    }
-}
+            if (ganhosTotais > 0 && ganhosTotais < 1000000) {
+                if (emDesafioDobro) {
+                    document.getElementById("textoMeta").innerText = `Vença +3 rodadas para coletar $${ganhosTotais * 2}`;
+                } else {
+                    document.getElementById("textoMeta").innerText = `Dinheiro seguro. Próximo dobro valerá $${ganhosTotais * 2}`;
+                }
+            } else if (ganhosTotais >= 1000000) {
+                document.getElementById("textoMeta").innerText = "META DE $1M ALCANÇADA! APERTE 'X' NA MALA PARA FINALIZAR! 💸";
+            }
+            atualizarMetaMilhao();
+        }
 
         function fecharModalDobro() { document.getElementById("modalDobro").style.display = "none"; }
         function abrirModalMeta() { document.getElementById("modalMeta").style.display = "flex"; }
@@ -661,6 +708,7 @@ atualizarPainelGanhos();
             document.getElementById("btnOK").style.display = "block";
             document.getElementById("btnZerar").style.display = "none";
             document.getElementById("btnClick").style.display = "none";
+            atualizarRodadaVisual();
         }
 
         const btnCheck = document.getElementById('btn-check');
@@ -670,7 +718,7 @@ atualizarPainelGanhos();
         btnCheck.addEventListener('click', () => {
             if (ganhosTotais === 0) {
                 let valorInput = prompt("Qual o valor ganho? (Ex: 1000)");
-                
+
                 if (valorInput === null) {
                     return; 
                 }
@@ -681,7 +729,7 @@ atualizarPainelGanhos();
                     alert("Você precisa digitar um valor maior que zero.");
                     return; 
                 }
-                
+
                 ganhosTotais = valor;
             }
 
@@ -693,7 +741,7 @@ atualizarPainelGanhos();
             }
 
             display.innerHTML = "DOBRO ACEITO!";
-            
+
             emDesafioDobro = true;
             vitoriasSeguidas = 0; 
             atualizarPainelGanhos();
@@ -712,6 +760,63 @@ atualizarPainelGanhos();
                 finalizarJogoELevarGrana();
             }, 1200);
         });
-    </script>
+
+function atualizarRodadaVisual(){
+    const total = parseInt(document.getElementById("vitorias").innerText) || 0;
+
+    const luzes = [
+        document.getElementById("luz1"),
+        document.getElementById("luz2"),
+        document.getElementById("luz3")
+    ];
+
+    luzes.forEach(l => {
+        l.classList.remove("ativa");
+        l.classList.remove("piscando");
+    });
+
+    const rodada = total % 3;
+
+    let luzAtual;
+
+    if(rodada === 0) luzAtual = document.getElementById("luz1");
+    if(rodada === 1) luzAtual = document.getElementById("luz2");
+    if(rodada === 2) luzAtual = document.getElementById("luz3");
+
+    luzAtual.classList.add("ativa");
+
+    // reinicia animação
+    void luzAtual.offsetWidth;
+
+    luzAtual.classList.add("piscando");
+	document.getElementById("somrodada").play();
+
+    atualizarMetaMilhao();
+}
+
+function atualizarMetaMilhao(){
+    const info=document.getElementById("faltamMilhao");
+
+    if(ganhosTotais<=0){
+        info.style.display="none";
+        return;
+    }
+
+    if(ganhosTotais>=1000000){
+        info.style.display="block";
+        info.innerText="META DE R$ 1.000.000 ALCANÇADA";
+        return;
+    }
+
+    const dobradasNecessarias=Math.ceil(Math.log2(1000000/ganhosTotais));
+    const vitoriasFaltando=dobradasNecessarias*3;
+
+    info.style.display="block";
+    info.innerText=`Faltam ${vitoriasFaltando} vitórias para chegar a R$ 1.000.000`;
+}
+
+
+atualizarRodadaVisual();
+</script>
 </body>
 </html>
